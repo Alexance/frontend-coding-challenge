@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, h, watchEffect } from "vue";
+import { ElNotification } from "element-plus";
 
 import { useStore } from "@/store";
 import { GetterTypes } from "@/store/modules/players";
@@ -12,6 +13,20 @@ const store = useStore();
 const isStatusAvailable = computed<boolean>(
   () => store.getters[GetterTypes.IS_PLAYER_STATUS_AVAILABLE]
 );
+
+watchEffect(() => {
+  if (store.getters[GetterTypes.IS_WINNERS_REQUEST_FAILED]) {
+    ElNotification({
+      title: "API Error",
+      message: h(
+        "span",
+        "An API error occurred during the request to get the Winners list"
+      ),
+      position: "bottom-right",
+      appendTo: "#app",
+    });
+  }
+});
 </script>
 
 <template>

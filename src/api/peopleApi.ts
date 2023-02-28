@@ -27,7 +27,7 @@ const people: Person[] = [
   { name: "Jacob" },
 ];
 
-export function getAll(canReturnError = false) {
+export function getAll(canReturnError = true) {
   return new Promise<Person[]>((resolve, reject) => {
     if (!canReturnError) {
       resolve(people);
