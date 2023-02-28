@@ -21,22 +21,25 @@ const emit = defineEmits<{
 }>();
 
 const formRef = ref<FormInstance>();
+const touched = ref(false);
 
 const rules = computed<Record<keyof FormModelValue, FormItemRule[]>>(() => ({
-  name: [
-    {
-      required: true,
-      message: "The field value is required",
-    },
-    {
-      pattern: new RegExp(/^[a-zA-Z]+$/),
-      message: "The field value must contain only letters",
-    },
-    {
-      min: 2,
-      message: "The length of the name should be at least 2 letters",
-    },
-  ],
+  name: touched.value
+    ? [
+        {
+          required: true,
+          message: "The field value is required",
+        },
+        {
+          pattern: new RegExp(/^[a-zA-Z]+$/),
+          message: "The field value must contain only letters",
+        },
+        {
+          min: 2,
+          message: "The length of the name should be at least 2 letters",
+        },
+      ]
+    : [],
 }));
 
 const name = computed({
@@ -57,6 +60,18 @@ async function onFormSubmit(formInstance: FormInstance | undefined) {
     emit("submit");
   }
 }
+
+// By default, the form doesn't support touched/untouched flags.
+// It means the external changes will also be validated. If the form
+// is bound to a field outside of the component then each change will
+// be validated. To avoid that, this additional flag is added around it
+function setTouched(value: boolean) {
+  touched.value = value;
+}
+
+defineExpose({
+  setTouched,
+});
 </script>
 
 <template>
