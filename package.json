@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "commit": "commit"
   },
   "dependencies": {
     "core-js": "^3.6.5",
@@ -13,6 +14,9 @@
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.4.4",
+    "@commitlint/config-conventional": "^17.4.4",
+    "@commitlint/prompt-cli": "^17.4.4",
     "@vue/cli-plugin-babel": "^5.0.8",
     "@vue/cli-plugin-router": "^5.0.8",
     "@vue/cli-plugin-vuex": "^5.0.8",
