@@ -1,0 +1,4 @@
+export enum ActionTypes {
+  FETCH_ALL_WINNERS = "FETCH_ALL_WINNERS",
+  VERIFY_WIN_STATUS = "VERIFY_WIN_STATUS",
+}

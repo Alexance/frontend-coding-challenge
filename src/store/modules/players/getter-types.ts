@@ -1,0 +1,3 @@
+export enum GetterTypes {
+  IS_PLAYER_STATUS_AVAILABLE = "IS_WIN_STATUS_AVAILABLE",
+}

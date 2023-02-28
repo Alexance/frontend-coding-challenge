@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Given the \`FccNameSearchPromptContainer\` component when it is rendered when the user is NOT a winner should match the snapshot 1`] = `
+<fcc-modal-unlucky-stub
+  data-test="fcc-modal-unlucky"
+/>
+`;

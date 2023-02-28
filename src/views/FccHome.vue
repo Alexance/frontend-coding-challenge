@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import NameSearcher from "@/components/ui/NameSearcher.vue";
+import FccNameSearchContainer from "@/components/containers/FccNameSearchContainer.vue";
 </script>
 
 <template>
@@ -13,7 +13,7 @@ import NameSearcher from "@/components/ui/NameSearcher.vue";
     </p>
 
     <div class="game-container">
-      <NameSearcher />
+      <FccNameSearchContainer />
     </div>
   </div>
 </template>
