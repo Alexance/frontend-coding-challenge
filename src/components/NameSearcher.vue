@@ -4,14 +4,14 @@
 </template>
 
 <script>
-import NameSearchResponse from '@/components/NameSearchResponse.vue'
+import NameSearchResponse from "@/components/NameSearchResponse.vue";
 
 export default {
-  name: 'NameSearcher',
+  name: "NameSearcher",
   components: {
     NameSearchResponse,
   },
-}
+};
 </script>
 
 <style scoped lang="scss">

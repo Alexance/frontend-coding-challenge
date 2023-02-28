@@ -4,8 +4,8 @@
 
 <script>
 export default {
-  name: 'NameSearchResponse',
-}
+  name: "NameSearchResponse",
+};
 </script>
 
 <style scoped lang="scss">
