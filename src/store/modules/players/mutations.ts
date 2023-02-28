@@ -19,6 +19,13 @@ const mutations: MutationTree<State> = {
     state.todayWinners = winners;
   },
 
+  [MutationTypes.SET_YESTERDAY_WINNERS](
+    state: State,
+    winners: State["yesterdayWinners"]
+  ) {
+    state.yesterdayWinners = winners;
+  },
+
   [MutationTypes.SET_PLAYER_STATUS](state: State, status: State["status"]) {
     state.status = status;
   },

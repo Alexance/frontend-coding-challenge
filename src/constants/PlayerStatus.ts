@@ -3,4 +3,5 @@ export enum PlayerStatus {
   NO_WIN = "NO_WIN",
   WIN = "WINNER",
   DUPLICATE = "DUPLICATE",
+  LIMIT_EXCEEDED = "LIMIT_EXCEEDED",
 }

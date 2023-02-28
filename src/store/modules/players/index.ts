@@ -18,6 +18,7 @@ const storeModule: Module<State, RootState> = {
       name: "",
     },
     todayWinners: [],
+    yesterdayWinners: [],
     allWinners: [],
     status: PlayerStatus.NO_DETAILS,
     getWinnersRequestStatus: ApiCallStatus.NOT_AVAILABLE,

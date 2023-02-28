@@ -8,10 +8,7 @@ const emit = defineEmits<{
 
 <template>
   <ElDialog :model-value="true" @close="emit('close')" width="30%" center>
-    <span>
-      I'm sorry, `<slot name="name"></slot>` has already received their prize
-      today or yesterday!
-    </span>
+    <span> I'm sorry, but the limit of winners is exceeded </span>
 
     <template #footer>
       <div class="dialog-footer">

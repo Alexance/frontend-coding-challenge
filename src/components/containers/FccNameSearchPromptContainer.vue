@@ -8,6 +8,7 @@ import { MutationTypes } from "@/store/modules/players";
 import FccModalLucky from "@/components/ui/modals/FccModalLucky.vue";
 import FccModalUnlucky from "@/components/ui/modals/FccModalUnlucky.vue";
 import FccModalDuplicate from "@/components/ui/modals/FccModalDuplicate.vue";
+import FccModalLimitExceeded from "../ui/modals/FccModalLimitExceeded.vue";
 
 const store = useStore();
 
@@ -57,4 +58,9 @@ function onReject() {
   >
     <template #name>{{ name }}</template>
   </FccModalDuplicate>
+
+  <FccModalLimitExceeded
+    v-else-if="status === PlayerStatus.LIMIT_EXCEEDED"
+    @close="onReject"
+  />
 </template>

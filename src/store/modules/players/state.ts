@@ -18,6 +18,10 @@ export interface State {
    */
   todayWinners: Person[];
   /**
+   * The list of winners who won yesterday
+   */
+  yesterdayWinners: Person[];
+  /**
    * If the given user is a winner or has another player status
    */
   status: PlayerStatus;

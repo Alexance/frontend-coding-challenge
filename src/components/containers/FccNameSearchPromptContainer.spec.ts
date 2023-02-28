@@ -33,6 +33,7 @@ describe("Given the `FccNameSearchPromptContainer` component", () => {
         getWinnersRequestStatus: ApiCallStatus.NOT_AVAILABLE,
         status: PlayerStatus.NO_DETAILS,
         todayWinners: [],
+        yesterdayWinners: [],
         user: {
           name: "Ava",
         },

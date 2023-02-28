@@ -4,6 +4,7 @@ import { RootState } from "@/store/state";
 import { getAll } from "@/api/peopleApi";
 import { PlayerStatus } from "@/constants/PlayerStatus";
 import { ApiCallStatus } from "@/constants/ApiCallStatus";
+import { WINNERS_PER_DAY_LIMIT } from "@/constants/GameSettings";
 
 import { State } from "./state";
 import { ActionTypes } from "./action-types";
@@ -44,14 +45,24 @@ const actions: ActionTree<State, RootState> = {
    * @param context Action context
    */
   [ActionTypes.CHECK_USER_ELIGIBILITY]({ commit, state }) {
-    // Check if the current user is not a winner already
-    const isDuplicate = state.todayWinners.some(
+    // Check if the limit of winners is not exceeded
+    const isLimitExceeded = state.todayWinners.length === WINNERS_PER_DAY_LIMIT;
+
+    if (isLimitExceeded) {
+      commit(MutationTypes.SET_PLAYER_STATUS, PlayerStatus.LIMIT_EXCEEDED);
+      return;
+    }
+
+    // Check if the current user is a winner already
+    const isTodayDuplicate = state.todayWinners.some(
+      (winner) => winner.name === state.user.name
+    );
+    const isYesterdayDuplicate = state.yesterdayWinners.some(
       (winner) => winner.name === state.user.name
     );
 
-    if (isDuplicate) {
+    if (isTodayDuplicate || isYesterdayDuplicate) {
       commit(MutationTypes.SET_PLAYER_STATUS, PlayerStatus.DUPLICATE);
-      return;
     }
   },
 
@@ -82,6 +93,18 @@ const actions: ActionTree<State, RootState> = {
     const winStatus = isUserWinner ? PlayerStatus.WIN : PlayerStatus.NO_WIN;
 
     commit(MutationTypes.SET_PLAYER_STATUS, winStatus);
+  },
+
+  /**
+   * Switch day context to the next one
+   *
+   * @param context Action context
+   */
+  [ActionTypes.SWITCH_TO_THE_NEXT_DAY]({ commit, state }) {
+    const { todayWinners } = state;
+
+    commit(MutationTypes.SET_YESTERDAY_WINNERS, todayWinners);
+    commit(MutationTypes.SET_TODAY_WINNERS, []);
   },
 };
 

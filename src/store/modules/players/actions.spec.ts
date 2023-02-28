@@ -26,6 +26,7 @@ describe("Given the `actions` object from 'Players' module", () => {
       status: PlayerStatus.NO_DETAILS,
       allWinners: [],
       todayWinners: [],
+      yesterdayWinners: [],
       getWinnersRequestStatus: ApiCallStatus.NOT_AVAILABLE,
       user: {
         name: "",
