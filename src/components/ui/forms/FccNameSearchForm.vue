@@ -75,7 +75,13 @@ defineExpose({
 </script>
 
 <template>
-  <ElForm ref="formRef" :model="props" :rules="rules" label-width="50px">
+  <ElForm
+    ref="formRef"
+    :model="props"
+    :rules="rules"
+    @submit.prevent="onFormSubmit(formRef)"
+    label-width="50px"
+  >
     <ElFormItem label="Name" prop="name">
       <ElInput v-model="name" />
     </ElFormItem>
