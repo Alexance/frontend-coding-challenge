@@ -7,6 +7,7 @@ import { useStore } from "@/store";
 import { MutationTypes } from "@/store/modules/players";
 import FccModalLucky from "@/components/ui/modals/FccModalLucky.vue";
 import FccModalUnlucky from "@/components/ui/modals/FccModalUnlucky.vue";
+import FccModalDuplicate from "@/components/ui/modals/FccModalDuplicate.vue";
 
 const store = useStore();
 
@@ -49,4 +50,11 @@ function onReject() {
   >
     <template #name>{{ name }}</template>
   </FccModalUnlucky>
+
+  <FccModalDuplicate
+    v-else-if="status === PlayerStatus.DUPLICATE"
+    @close="onReject"
+  >
+    <template #name>{{ name }}</template>
+  </FccModalDuplicate>
 </template>

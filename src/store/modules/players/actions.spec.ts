@@ -7,6 +7,7 @@ import { PlayerStatus } from "@/constants/PlayerStatus";
 import { ActionTypes } from "./action-types";
 import { MutationTypes } from "./mutation-types";
 import actions from "./actions";
+import { State } from "./state";
 
 jest.mock("@/api/peopleApi");
 
@@ -21,8 +22,16 @@ describe("Given the `actions` object from 'Players' module", () => {
     getters: {},
     rootGetters: {},
     rootState: {},
-    state: {},
-  } as ActionContext<{}, {}>;
+    state: {
+      status: PlayerStatus.NO_DETAILS,
+      allWinners: [],
+      todayWinners: [],
+      getWinnersRequestStatus: ApiCallStatus.NOT_AVAILABLE,
+      user: {
+        name: "",
+      },
+    },
+  } as ActionContext<State, {}>;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -97,10 +106,43 @@ describe("Given the `actions` object from 'Players' module", () => {
   });
 
   describe(`when "${ActionTypes.VERIFY_WIN_STATUS}" is used`, () => {
+    describe("and when the user is not eligible to participate in game", () => {
+      const givenActionContext: ActionContext<{}, {}> = {
+        ...actionContext,
+        state: {
+          ...actionContext.state,
+          status: PlayerStatus.DUPLICATE,
+        },
+      };
+
+      describe("and when the action is dispatched", () => {
+        beforeEach(() => {
+          (
+            actions[ActionTypes.VERIFY_WIN_STATUS] as ActionHandler<{}, {}>
+          ).bind(storeContext)(givenActionContext);
+        });
+
+        it("should check the user eligibility", () => {
+          expect(givenActionContext.dispatch).toHaveBeenCalledWith(
+            ActionTypes.CHECK_USER_ELIGIBILITY
+          );
+        });
+
+        it("should NOT commit anything except the reset operation", () => {
+          expect(givenActionContext.commit).toHaveBeenCalledWith(
+            MutationTypes.SET_PLAYER_STATUS,
+            PlayerStatus.NO_DETAILS
+          );
+          expect(givenActionContext.commit).toHaveBeenCalledTimes(1);
+        });
+      });
+    });
+
     describe("and when the request to get all winners has failed", () => {
       const givenActionContext: ActionContext<{}, {}> = {
         ...actionContext,
         state: {
+          ...actionContext.state,
           getWinnersRequestStatus: ApiCallStatus.FAILURE,
         },
       };
@@ -112,8 +154,12 @@ describe("Given the `actions` object from 'Players' module", () => {
           ).bind(storeContext)(givenActionContext);
         });
 
-        it("should NOT commit anything", () => {
-          expect(givenActionContext.commit).not.toHaveBeenCalled();
+        it("should NOT commit anything except the reset operation", () => {
+          expect(givenActionContext.commit).toHaveBeenCalledWith(
+            MutationTypes.SET_PLAYER_STATUS,
+            PlayerStatus.NO_DETAILS
+          );
+          expect(givenActionContext.commit).toHaveBeenCalledTimes(1);
         });
       });
     });
@@ -122,6 +168,7 @@ describe("Given the `actions` object from 'Players' module", () => {
       const givenActionContext: ActionContext<{}, {}> = {
         ...actionContext,
         state: {
+          ...actionContext.state,
           getWinnersRequestStatus: ApiCallStatus.SUCCESS,
           user: {
             name: "Ava",
@@ -154,6 +201,7 @@ describe("Given the `actions` object from 'Players' module", () => {
       const givenActionContext: ActionContext<{}, {}> = {
         ...actionContext,
         state: {
+          ...actionContext.state,
           getWinnersRequestStatus: ApiCallStatus.SUCCESS,
           user: {
             name: "Ava",

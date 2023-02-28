@@ -39,11 +39,37 @@ const actions: ActionTree<State, RootState> = {
   },
 
   /**
+   * Check if the user is eligible to play game
+   *
+   * @param context Action context
+   */
+  [ActionTypes.CHECK_USER_ELIGIBILITY]({ commit, state }) {
+    // Check if the current user is not a winner already
+    const isDuplicate = state.todayWinners.some(
+      (winner) => winner.name === state.user.name
+    );
+
+    if (isDuplicate) {
+      commit(MutationTypes.SET_PLAYER_STATUS, PlayerStatus.DUPLICATE);
+      return;
+    }
+  },
+
+  /**
    * Check if the user is winner or not
    *
    * @param context Action context
    */
   async [ActionTypes.VERIFY_WIN_STATUS]({ commit, dispatch, state }) {
+    commit(MutationTypes.SET_PLAYER_STATUS, PlayerStatus.NO_DETAILS);
+    dispatch(ActionTypes.CHECK_USER_ELIGIBILITY);
+
+    const isUserEligible = state.status === PlayerStatus.NO_DETAILS;
+
+    if (!isUserEligible) {
+      return;
+    }
+
     await dispatch(ActionTypes.FETCH_ALL_WINNERS);
 
     if (state.getWinnersRequestStatus !== ApiCallStatus.SUCCESS) {
