@@ -6,7 +6,6 @@ import { useStore } from "@/store";
 import { GetterTypes } from "@/store/modules/players";
 import FccNameSearchFormContainer from "@/components/containers/FccNameSearchFormContainer.vue";
 import FccNameSearchPromptContainer from "@/components/containers/FccNameSearchPromptContainer.vue";
-import FccNameSearchWinnersContainer from "@/components/containers/FccNameSearchWinnersContainer.vue";
 
 const store = useStore();
 
@@ -32,5 +31,4 @@ watchEffect(() => {
 <template>
   <FccNameSearchFormContainer />
   <FccNameSearchPromptContainer v-if="isStatusAvailable" />
-  <FccNameSearchWinnersContainer />
 </template>

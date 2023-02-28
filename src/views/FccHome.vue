@@ -1,7 +1,3 @@
-<script setup lang="ts">
-import FccNameSearchContainer from "@/components/containers/FccNameSearchContainer.vue";
-</script>
-
 <template>
   <div class="home-container">
     <h2>Is your name lucky?</h2>
@@ -13,7 +9,7 @@ import FccNameSearchContainer from "@/components/containers/FccNameSearchContain
     </p>
 
     <div class="game-container">
-      <FccNameSearchContainer />
+      <router-view />
     </div>
   </div>
 </template>
