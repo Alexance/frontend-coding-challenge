@@ -1,4 +1,6 @@
-const people = [
+import { Person } from "@/models/Person";
+
+const people: Person[] = [
   { name: "Joseph" },
   { name: "Ava" },
   { name: "Olivia" },
@@ -26,7 +28,7 @@ const people = [
 ];
 
 export function getAll(canReturnError = false) {
-  return new Promise((resolve, reject) => {
+  return new Promise<Person[]>((resolve, reject) => {
     if (!canReturnError) {
       resolve(people);
     }
