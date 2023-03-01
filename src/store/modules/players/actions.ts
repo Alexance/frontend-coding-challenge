@@ -9,6 +9,7 @@ import { WINNERS_PER_DAY_LIMIT } from "@/constants/GameSettings";
 import { State } from "./state";
 import { ActionTypes } from "./action-types";
 import { MutationTypes } from "./mutation-types";
+import { GetterTypes } from "./getter-types";
 
 const actions: ActionTree<State, RootState> = {
   /**
@@ -44,7 +45,7 @@ const actions: ActionTree<State, RootState> = {
    *
    * @param context Action context
    */
-  [ActionTypes.CHECK_USER_ELIGIBILITY]({ commit, state }) {
+  [ActionTypes.CHECK_USER_ELIGIBILITY]({ commit, state, getters }) {
     // Check if the limit of winners is not exceeded
     const isLimitExceeded = state.todayWinners.length === WINNERS_PER_DAY_LIMIT;
 
@@ -54,14 +55,9 @@ const actions: ActionTree<State, RootState> = {
     }
 
     // Check if the current user is a winner already
-    const isTodayDuplicate = state.todayWinners.some(
-      (winner) => winner.name === state.user.name
-    );
-    const isYesterdayDuplicate = state.yesterdayWinners.some(
-      (winner) => winner.name === state.user.name
-    );
+    const isDuplicate = getters[GetterTypes.IS_PLAYER_DUPLICATE];
 
-    if (isTodayDuplicate || isYesterdayDuplicate) {
+    if (isDuplicate) {
       commit(MutationTypes.SET_PLAYER_STATUS, PlayerStatus.DUPLICATE);
     }
   },
@@ -71,7 +67,7 @@ const actions: ActionTree<State, RootState> = {
    *
    * @param context Action context
    */
-  async [ActionTypes.VERIFY_WIN_STATUS]({ commit, dispatch, state }) {
+  async [ActionTypes.VERIFY_WIN_STATUS]({ commit, dispatch, getters, state }) {
     commit(MutationTypes.SET_PLAYER_STATUS, PlayerStatus.NO_DETAILS);
     dispatch(ActionTypes.CHECK_USER_ELIGIBILITY);
 
@@ -87,9 +83,7 @@ const actions: ActionTree<State, RootState> = {
       return;
     }
 
-    const isUserWinner = state.allWinners.some(
-      (winner) => winner.name === state.user.name
-    );
+    const isUserWinner = getters[GetterTypes.IS_PLAYER_WINNER];
     const winStatus = isUserWinner ? PlayerStatus.WIN : PlayerStatus.NO_WIN;
 
     commit(MutationTypes.SET_PLAYER_STATUS, winStatus);
